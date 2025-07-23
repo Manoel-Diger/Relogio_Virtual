@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Relógio digital e analógico funcional com design responsivo">
+    <meta name="author" content="Manoel">
+    <meta name="theme-color" content="#333333">
+    
+    <title>Relógio Digital e Analógico</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23333' stroke='%23fff' stroke-width='5'/><circle cx='50' cy='50' r='3' fill='%23fff'/></svg>">
+    
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <main class="container">
+        <!-- Cabeçalho -->
+        <header class="header">
+            <h1 class="title">Relógio Profissional</h1>
+            
+        </header>
+
+        <!-- Container do relógio -->
+        <section class="clock-section" aria-label="Relógio principal">
+            <!-- Relógio analógico -->
+            <div class="relogio" role="img" aria-label="Relógio analógico" tabindex="0" title="Clique para alternar formato 12h/24h">
+                <!-- Marcadores das horas -->
+                <div class="riscos" aria-hidden="true">
+                    <!-- Marcadores principais (12, 3, 6, 9) -->
+                    <div class="risco risco-principal" style="transform: rotate(0deg)" data-hour="12">
+                        <div class="ponto ponto-principal">
+                            <span class="hour-number">12</span>
+                        </div>
+                    </div>
+                    <div class="risco risco-principal" style="transform: rotate(90deg)" data-hour="3">
+                        <div class="ponto ponto-principal">
+                            <span class="hour-number">3</span>
+                        </div>
+                    </div>
+                    <div class="risco risco-principal" style="transform: rotate(180deg)" data-hour="6">
+                        <div class="ponto ponto-principal">
+                            <span class="hour-number">6</span>
+                        </div>
+                    </div>
+                    <div class="risco risco-principal" style="transform: rotate(270deg)" data-hour="9">
+                        <div class="ponto ponto-principal">
+                            <span class="hour-number">9</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Marcadores secundários -->
+                    <div class="risco" style="transform: rotate(30deg)"><div class="ponto"></div></div>
+                    <div class="risco" style="transform: rotate(60deg)"><div class="ponto"></div></div>
+                    <div class="risco" style="transform: rotate(120deg)"><div class="ponto"></div></div>
+                    <div class="risco" style="transform: rotate(150deg)"><div class="ponto"></div></div>
+                    <div class="risco" style="transform: rotate(210deg)"><div class="ponto"></div></div>
+                    <div class="risco" style="transform: rotate(240deg)"><div class="ponto"></div></div>
+                    <div class="risco" style="transform: rotate(300deg)"><div class="ponto"></div></div>
+                    <div class="risco" style="transform: rotate(330deg)"><div class="ponto"></div></div>
+                </div>
+                
+                <!-- Ponteiros -->
+                <div class="ponteiros" aria-hidden="true">
+                    <div class="p p_h" aria-label="Ponteiro das horas"></div>
+                    <div class="p p_m" aria-label="Ponteiro dos minutos"></div>
+                    <div class="p p_s" aria-label="Ponteiro dos segundos"></div>
+                    <div class="encaixe" aria-label="Centro do relógio"></div>
+                </div>
+            </div>
+
+            <!-- Display digital -->
+            <div class="digital-container">
+                <div class="digital" aria-live="polite" aria-label="Horário digital">
+                    <span class="loading">--:--:--</span>
+                </div>
+                <div class="date-display" aria-live="polite" aria-label="Data atual">
+                    <span class="date">Carregando...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Controles -->
+        <section class="controls" aria-label="Controles do relógio">
+            <button class="control-btn" id="formatToggle" aria-label="Alternar entre formato 12h e 24h">
+                <span class="btn-text">12h/24h</span>
+            </button>
+            <button class="control-btn" id="themeToggle" aria-label="Alternar tema claro/escuro">
+                <span class="btn-text">🌙/☀️</span>
+            </button>
+            <button class="control-btn" id="pauseToggle" aria-label="Pausar/retomar relógio">
+                <span class="btn-text">⏸️/▶️</span>
+            </button>
+        </section>
+
+        <!-- Informações adicionais -->
+        <section class="info-panel" aria-label="Informações adicionais">
+            <div class="info-item">
+                <span class="info-label">Fuso Horário:</span>
+                <span class="info-value" id="timezone">Detectando...</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Dia da Semana:</span>
+                <span class="info-value" id="weekday">Carregando...</span>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <p>© <span id="currentYear">2025</span> · Criado por <strong>Manoel</strong></p>
+        <p class="version">v2.0 - Relógio Responsivo</p>
+    </footer>
+
+    <div class="loading-overlay" id="loadingOverlay" aria-hidden="true">
+        <div class="spinner"></div>
+        <p>Carregando relógio...</p>
+    </div>
+
+    <script src="script.js" defer></script>
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => console.log('SW registered'))
+                    .catch(error => console.log('SW registration failed'));
+            });
+        }
+    </script>
+</body>
+</html>
